@@ -74,6 +74,7 @@ public class Issue extends BasicIssue implements ExpandableResource {
         this.priority = priority;
         this.timeTracking = timeTracking;
         this.subtasks = subtasks;
+        this.parentTask = parentTask;
         this.changelog = changelog;
         this.operations = operations;
         this.labels = labels;
