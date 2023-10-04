@@ -44,7 +44,8 @@ public class Issue extends BasicIssue implements ExpandableResource {
                  @Nullable URI transitionsUri,
                  @Nullable Collection<IssueLink> issueLinks,
                  BasicVotes votes, Collection<Worklog> worklogs, BasicWatchers watchers, Iterable<String> expandos,
-                 @Nullable Collection<Subtask> subtasks, @Nullable Collection<ChangelogGroup> changelog, @Nullable Operations operations,
+                 @Nullable Collection<Subtask> subtasks, @Nullable ParentTask parentTask,
+                 @Nullable Collection<ChangelogGroup> changelog, @Nullable Operations operations,
                  Set<String> labels) {
         super(self, key, id);
         this.summary = summary;
@@ -118,6 +119,8 @@ public class Issue extends BasicIssue implements ExpandableResource {
     @Nullable
     private final Collection<Subtask> subtasks;
     @Nullable
+    private final ParentTask parentTask;
+    @Nullable
     private final Collection<ChangelogGroup> changelog;
     @Nullable
     private final Operations operations;
@@ -167,6 +170,11 @@ public class Issue extends BasicIssue implements ExpandableResource {
     @Nullable
     public Iterable<Subtask> getSubtasks() {
         return subtasks;
+    }
+
+    @Nullable
+    public ParentTask getParentTask() {
+        return parentTask;
     }
 
     /**

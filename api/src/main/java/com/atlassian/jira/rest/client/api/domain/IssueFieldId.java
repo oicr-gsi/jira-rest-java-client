@@ -43,6 +43,7 @@ public enum IssueFieldId {
     RESOLUTION_FIELD("resolution"),
     STATUS_FIELD("status"),
     SUBTASKS_FIELD("subtasks"),
+    PARENTTASKS_FIELD("parent"),
     SUMMARY_FIELD("summary"),
     TIMETRACKING_FIELD("timetracking"),
     TRANSITIONS_FIELD("transitions"),

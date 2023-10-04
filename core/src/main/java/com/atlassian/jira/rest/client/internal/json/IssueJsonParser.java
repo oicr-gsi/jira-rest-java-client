@@ -31,6 +31,7 @@ import com.atlassian.jira.rest.client.api.domain.IssueFieldId;
 import com.atlassian.jira.rest.client.api.domain.IssueLink;
 import com.atlassian.jira.rest.client.api.domain.IssueType;
 import com.atlassian.jira.rest.client.api.domain.Operations;
+import com.atlassian.jira.rest.client.api.domain.ParentTask;
 import com.atlassian.jira.rest.client.api.domain.Resolution;
 import com.atlassian.jira.rest.client.api.domain.Status;
 import com.atlassian.jira.rest.client.api.domain.Subtask;
@@ -76,6 +77,7 @@ import static com.atlassian.jira.rest.client.api.domain.IssueFieldId.REPORTER_FI
 import static com.atlassian.jira.rest.client.api.domain.IssueFieldId.RESOLUTION_FIELD;
 import static com.atlassian.jira.rest.client.api.domain.IssueFieldId.STATUS_FIELD;
 import static com.atlassian.jira.rest.client.api.domain.IssueFieldId.SUBTASKS_FIELD;
+import static com.atlassian.jira.rest.client.api.domain.IssueFieldId.PARENTTASKS_FIELD;
 import static com.atlassian.jira.rest.client.api.domain.IssueFieldId.SUMMARY_FIELD;
 import static com.atlassian.jira.rest.client.api.domain.IssueFieldId.TIMETRACKING_FIELD;
 import static com.atlassian.jira.rest.client.api.domain.IssueFieldId.UPDATED_FIELD;
@@ -108,6 +110,7 @@ public class IssueJsonParser implements JsonObjectParser<Issue> {
     private final ResolutionJsonParser resolutionJsonParser = new ResolutionJsonParser();
     private final UserJsonParser userJsonParser = new UserJsonParser();
     private final SubtaskJsonParser subtaskJsonParser = new SubtaskJsonParser();
+    private final ParentTaskJsonParser parentTaskJsonParser = new ParentTaskJsonParser();
     private final ChangelogJsonParser changelogJsonParser = new ChangelogJsonParser();
     private final OperationsJsonParser operationsJsonParser = new OperationsJsonParser();
     private final JsonWeakParserForString jsonWeakParserForString = new JsonWeakParserForString();
@@ -279,11 +282,13 @@ public class IssueJsonParser implements JsonObjectParser<Issue> {
                 issueJson, new JsonWeakParserForJsonObject<ChangelogGroup>(changelogJsonParser), "changelog", "histories");
         final Operations operations = parseOptionalJsonObject(issueJson, "operations", operationsJsonParser);
 
+        final ParentTask parentTask = getOptionalNestedField(issueJson, PARENTTASKS_FIELD.id, parentTaskJsonParser );
+
         return new Issue(summary, selfUri, basicIssue.getKey(), basicIssue.getId(), project, issueType, status,
                 description, priority, resolution, attachments, reporter, assignee, creationDate, updateDate,
                 dueDate, affectedVersions, fixVersions, components, timeTracking, fields, comments,
                 transitionsUri, issueLinks,
-                votes, worklogs, watchers, expandos, subtasks, changelog, operations, labels);
+                votes, worklogs, watchers, expandos, subtasks, parentTask, changelog, operations, labels);
     }
 
     private URI parseTransisionsUri(final String transitionsUriString, final URI selfUri) {
