@@ -44,7 +44,7 @@ public class Issue extends BasicIssue implements ExpandableResource {
                  @Nullable URI transitionsUri,
                  @Nullable Collection<IssueLink> issueLinks,
                  BasicVotes votes, Collection<Worklog> worklogs, BasicWatchers watchers, Iterable<String> expandos,
-                 @Nullable Collection<Subtask> subtasks, @Nullable ParentTask parentTask,
+                 @Nullable ParentTask parentTask, @Nullable Collection<Subtask> subtasks,
                  @Nullable Collection<ChangelogGroup> changelog, @Nullable Operations operations,
                  Set<String> labels) {
         super(self, key, id);
@@ -73,8 +73,8 @@ public class Issue extends BasicIssue implements ExpandableResource {
         this.components = components;
         this.priority = priority;
         this.timeTracking = timeTracking;
-        this.subtasks = subtasks;
-        this.parentTask = parentTask;
+	    this.parentTask = parentTask;
+		this.subtasks = subtasks;
         this.changelog = changelog;
         this.operations = operations;
         this.labels = labels;
@@ -118,9 +118,9 @@ public class Issue extends BasicIssue implements ExpandableResource {
     @Nullable
     private final TimeTracking timeTracking;
     @Nullable
+	private final ParentTask parentTask;
+	@Nullable
     private final Collection<Subtask> subtasks;
-    @Nullable
-    private final ParentTask parentTask;
     @Nullable
     private final Collection<ChangelogGroup> changelog;
     @Nullable

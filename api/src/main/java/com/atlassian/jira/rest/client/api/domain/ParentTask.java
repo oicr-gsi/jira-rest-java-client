@@ -18,7 +18,7 @@ package com.atlassian.jira.rest.client.api.domain;
 
 import java.net.URI;
 
-public class ParentTask extends Subtask{
+public class ParentTask extends RelativeTask {
 	public ParentTask(String issueKey, URI issueUri, String summary, IssueType issueType, Status status) {
 		super(issueKey, issueUri, summary, issueType, status);
 	}
