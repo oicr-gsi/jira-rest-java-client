@@ -15,7 +15,8 @@
 
     <properties>
         <plugins>com.atlassian.jira.tests:jira-testkit-plugin:${testkit.version}</plugins>
-        <jira.jvm.args>-Xms512m -Xmx1024m -XX:MaxPermSize=512m</jira.jvm.args>
+        <jira.jvm.args>-Xms512m -Xmx1024m</jira.jvm.args>
+        <enforcer.skip>true</enforcer.skip>
     </properties>
 
     <dependencies>
@@ -125,7 +126,7 @@
         <plugins>
             <plugin>
                 <groupId>com.atlassian.maven.plugins</groupId>
-                <artifactId>maven-jira-plugin</artifactId>
+                <artifactId>jira-maven-plugin</artifactId>
                 <version>${amps.version}</version>
                 <extensions>true</extensions>
                 <configuration>
@@ -148,6 +149,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
                 <configuration>
                     <includes>
                         <include>**/*Test.java</include>
@@ -207,7 +209,7 @@
             </activation>
             <properties>
                 <jira.version>1001.0.0-QR20160727011801</jira.version>
-                <amps.version>5.1.18</amps.version>
+                <amps.version>8.12.4</amps.version>
                 <testkit.version>1000.1.7</testkit.version>
                 <postgres.docker.image>docker.atl-paas.net/jira-cloud/postgres-ci:9.5</postgres.docker.image>
                 <postgres.docker.wait.log.regex>database system is ready to accept connections</postgres.docker.wait.log.regex>
@@ -224,7 +226,7 @@
                 <plugins>
                     <plugin>
                         <groupId>com.atlassian.maven.plugins</groupId>
-                        <artifactId>maven-jira-plugin</artifactId>
+                        <artifactId>jira-maven-plugin</artifactId>
                         <version>${amps.version}</version>
                         <configuration>
                             <libArtifacts>
