@@ -40,6 +40,7 @@ import javax.ws.rs.core.Response;
 import java.net.URI;
 
 import static com.atlassian.jira.rest.client.TestUtil.getLastPathSegment;
+import static com.atlassian.jira.rest.client.internal.ServerVersionConstants.BN_JIRA_10_0;
 import static com.atlassian.jira.rest.client.internal.ServerVersionConstants.BN_JIRA_6;
 import static com.google.common.collect.Iterables.toArray;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
@@ -152,6 +153,7 @@ public class AsynchronousVersionRestClientTest extends AbstractAsynchronousRestC
         }
     }
 
+    @JiraBuildNumberDependent(condition = LongCondition.LESS_THAN, value=BN_JIRA_10_0)
     @Test
     public void testGetAndRemoveVersion() {
         if (!isJira4x4OrNewer()) {
@@ -267,9 +269,12 @@ public class AsynchronousVersionRestClientTest extends AbstractAsynchronousRestC
                 .<String>emptyIterable());
     }
 
-    @JiraBuildNumberDependent(BN_JIRA_6)
+    @JiraBuildNumberDependent(condition = LongCondition.LESS_THAN, value=BN_JIRA_10_0)
     @Test
     public void testDeleteAndMoveVersion() {
+        if (!isJira6xOrNewer()) {
+            return;
+        }
         final Issue issue = client.getIssueClient().getIssue("TST-2").claim();
         assertThat(Iterables.transform(issue.getFixVersions(), new VersionToNameMapper()), containsInAnyOrder("1.1"));
         assertThat(Iterables.transform(issue.getAffectedVersions(), new VersionToNameMapper()), containsInAnyOrder("1", "1.1"));
