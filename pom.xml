@@ -45,7 +45,7 @@
     <properties>
         <platform.version>5.2.34</platform.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jira.version>8.18.0-QR-20210527053111</jira.version>
+        <jira.version>10.0.0-QR-20240320184314</jira.version>
         <jira.data.version>${jira.version}</jira.data.version>
         <jira.test-lib.version>${jira.version}</jira.test-lib.version>
         <jersey.client.version>2.35</jersey.client.version>
@@ -54,7 +54,7 @@
         <atlassian.httpclient.version>2.1.5</atlassian.httpclient.version>
         <httpcore.version>4.4.8</httpcore.version>
         <amps.version>6.3.22-fc341f3d2</amps.version>
-        <testkit.version>8.1.5</testkit.version>
+        <testkit.version>10.0.0</testkit.version>
         <atlassian.util.concurrent>4.0.1</atlassian.util.concurrent>
         <guava.version>32.0.1-jre</guava.version>
         <jackson.version>1.9.13-atlassian-4</jackson.version>
