@@ -136,6 +136,7 @@
                 <configuration>
                     <productVersion>${jira.version}</productVersion>
                     <productDataVersion>${jira.data.version}</productDataVersion>
+                    <containerId>tomcat9x</containerId>
                     <jvmArgs>${jira.jvm.args}</jvmArgs>
                     <enableFastdev>false</enableFastdev>
                 </configuration>
