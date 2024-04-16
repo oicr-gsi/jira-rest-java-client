@@ -16,7 +16,6 @@
 
 package it;
 
-import com.atlassian.jira.nimblefunctests.annotation.JiraBuildNumberDependent;
 import com.atlassian.jira.rest.client.IntegrationTestUtil;
 import com.atlassian.jira.rest.client.TestUtil;
 import com.atlassian.jira.rest.client.api.AddressableEntity;
@@ -40,7 +39,6 @@ import javax.ws.rs.core.Response;
 import java.net.URISyntaxException;
 import java.util.Iterator;
 
-import static com.atlassian.jira.rest.client.internal.ServerVersionConstants.BN_JIRA_5;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -186,7 +184,6 @@ public class AsynchronousProjectRestClientReadOnlyTest extends AbstractAsynchron
     }
 
     @Test
-    @JiraBuildNumberDependent(BN_JIRA_5)
     public void testGetPriorities() {
         final Iterable<Priority> priorities = client.getMetadataClient().getPriorities().claim();
         assertEquals(5, Iterables.size(priorities));
@@ -199,7 +196,6 @@ public class AsynchronousProjectRestClientReadOnlyTest extends AbstractAsynchron
     }
 
     @Test
-    @JiraBuildNumberDependent(BN_JIRA_5)
     public void testGetIssueTypes() {
         final Iterable<IssueType> issueTypes = client.getMetadataClient().getIssueTypes().claim();
         assertEquals(5, Iterables.size(issueTypes));
@@ -213,7 +209,6 @@ public class AsynchronousProjectRestClientReadOnlyTest extends AbstractAsynchron
     }
 
     @Test
-    @JiraBuildNumberDependent(BN_JIRA_5)
     public void testGetResolutions() {
         final Iterable<Resolution> resolutions = client.getMetadataClient().getResolutions().claim();
         assertEquals(5, Iterables.size(resolutions));

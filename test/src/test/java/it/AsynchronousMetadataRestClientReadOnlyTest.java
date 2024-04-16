@@ -16,7 +16,6 @@
 
 package it;
 
-import com.atlassian.jira.nimblefunctests.annotation.JiraBuildNumberDependent;
 import com.atlassian.jira.rest.client.IntegrationTestUtil;
 import com.atlassian.jira.rest.client.TestUtil;
 import com.atlassian.jira.rest.client.api.domain.BasicPriority;
@@ -45,7 +44,6 @@ import org.junit.Test;
 import javax.ws.rs.core.Response;
 import java.util.Map;
 
-import static com.atlassian.jira.rest.client.internal.ServerVersionConstants.BN_JIRA_4_3;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.hamcrest.Matchers.hasItems;
@@ -109,7 +107,6 @@ public class AsynchronousMetadataRestClientReadOnlyTest extends AbstractAsynchro
                 endsWith("viewavatar?size=xsmall&avatarId=10163&avatarType=issuetype")));
     }
 
-    @JiraBuildNumberDependent(BN_JIRA_4_3)
     @Test
     public void testGetIssueTypes() {
         final Iterable<IssuelinksType> issueTypes = client.getMetadataClient().getIssueLinkTypes().claim();

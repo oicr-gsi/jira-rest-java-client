@@ -16,7 +16,9 @@
 
 package it;
 
-import com.atlassian.jira.nimblefunctests.framework.NimbleFuncTestCase;
+import com.atlassian.jira.functest.framework.Administration;
+import com.atlassian.jira.functest.framework.BaseJiraFuncTest;
+import com.atlassian.jira.functest.framework.Navigation;
 import com.atlassian.jira.rest.client.IntegrationTestUtil;
 import com.atlassian.jira.rest.client.api.JiraRestClient;
 import com.atlassian.jira.rest.client.api.JiraRestClientFactory;
@@ -25,29 +27,45 @@ import com.atlassian.jira.rest.client.auth.BasicHttpAuthenticationHandler;
 import com.atlassian.jira.rest.client.internal.ServerVersionConstants;
 import com.atlassian.jira.rest.client.internal.async.AsynchronousJiraRestClientFactory;
 import com.atlassian.jira.rest.client.internal.json.TestConstants;
+import com.atlassian.jira.testkit.client.log.FuncTestLogger;
+import com.atlassian.jira.testkit.client.log.FuncTestLoggerImpl;
+import com.atlassian.jira.webtests.util.LocalTestEnvironmentData;
+import org.junit.After;
+import org.junit.Before;
 
+import javax.inject.Inject;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public abstract class AbstractAsynchronousRestClientTest extends NimbleFuncTestCase {
+import static com.atlassian.jira.rest.client.internal.json.TestConstants.ADMIN_PASSWORD;
+import static com.atlassian.jira.rest.client.internal.json.TestConstants.ADMIN_USERNAME;
+
+
+public abstract class AbstractAsynchronousRestClientTest extends BaseJiraFuncTest {
 
     protected URI jiraUri;
     protected JiraRestClient client;
     protected URI jiraRestRootUri;
     protected URI jiraAuthRootUri;
 
-    @Override
-    public void beforeMethod() {
-        super.beforeMethod();
+    @Inject
+    protected Administration administration;
+    @Inject
+    protected Navigation navigation;
 
+    protected FuncTestLogger log = new FuncTestLoggerImpl();
+
+    @Before
+    public void beforeMethod() {
+        navigation.login(ADMIN_USERNAME, ADMIN_PASSWORD);
         initUriFields();
         setAdmin();
     }
 
     private void initUriFields() {
         try {
-            jiraUri = UriBuilder.fromUri(environmentData.getBaseUrl().toURI()).build();
+            jiraUri = UriBuilder.fromUri(new LocalTestEnvironmentData().getBaseUrl().toURI()).build();
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -114,10 +132,9 @@ public abstract class AbstractAsynchronousRestClientTest extends NimbleFuncTestC
         return client.getMetadataClient().getServerInfo().claim().getBuildNumber() >= ServerVersionConstants.BN_JIRA_7_2;
     }
 
-    @Override
+    @After
     public void afterMethod() {
         try {
-            super.afterMethod();
             // We may have an empty client when a particular test is disabled because the tests are run
             // on not supported version of JIRA (example: run only on JIRA6 against JIRA5). In this case
             // we don't create a client in beforeMethod.

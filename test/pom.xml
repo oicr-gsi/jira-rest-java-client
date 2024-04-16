@@ -97,11 +97,6 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.atlassian.jira</groupId>
-            <artifactId>jira-nimble-func-tests</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
@@ -204,13 +199,6 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>com.atlassian.jira</groupId>
-                    <artifactId>jira-func-tests-legacy</artifactId>
-                    <version>${jira.test-lib.version}</version>
-                </dependency>
-            </dependencies>
         </profile>
         <profile>
             <id>jira-cloud</id>
@@ -226,11 +214,6 @@
                 <postgres.docker.wait.timeout>600000</postgres.docker.wait.timeout>
             </properties>
             <dependencies>
-                <dependency>
-                    <groupId>com.atlassian.jira</groupId>
-                    <artifactId>jira-func-tests-legacy</artifactId>
-                    <version>${jira.test-lib.version}</version>
-                </dependency>
                 <dependency>
                     <groupId>org.postgresql</groupId>
                     <artifactId>postgresql</artifactId>
