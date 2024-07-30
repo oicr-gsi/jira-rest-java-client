@@ -44,7 +44,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jira.version>10.0.0-QR-20240703083404</jira.version>
+        <jira.version>10.1.0-QR-20240726090547</jira.version>
         <jira.data.version>${jira.version}</jira.data.version>
         <jira.test-lib.version>${jira.version}</jira.test-lib.version>
         <amps.version>8.17.2</amps.version>
