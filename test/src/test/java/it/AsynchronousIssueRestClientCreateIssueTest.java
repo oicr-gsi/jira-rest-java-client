@@ -33,7 +33,7 @@ import com.atlassian.jira.rest.client.api.domain.Issue;
 import com.atlassian.jira.rest.client.api.domain.IssueFieldId;
 import com.atlassian.jira.rest.client.api.domain.IssueType;
 import com.atlassian.jira.rest.client.api.domain.Page;
-import com.atlassian.jira.rest.client.api.domain.Subtask;
+import com.atlassian.jira.rest.client.api.domain.RelativeTask;
 import com.atlassian.jira.rest.client.api.domain.TimeTracking;
 import com.atlassian.jira.rest.client.api.domain.User;
 import com.atlassian.jira.rest.client.api.domain.input.CannotTransformValueException;
@@ -384,9 +384,9 @@ public class AsynchronousIssueRestClientCreateIssueTest extends AbstractAsynchro
 
         final Issue parentIssue = issueClient.getIssue("TST-1").claim();
         final Set<String> subtaskKeys = ImmutableSet.copyOf(Iterables.transform(parentIssue
-                .getSubtasks(), new Function<Subtask, String>() {
+                .getSubtasks(), new Function<RelativeTask, String>() {
             @Override
-            public String apply(final Subtask subtask) {
+            public String apply(final RelativeTask subtask) {
                 return subtask.getIssueKey();
             }
         }));
@@ -506,9 +506,9 @@ public class AsynchronousIssueRestClientCreateIssueTest extends AbstractAsynchro
 
         final Issue parentIssue = issueClient.getIssue("TST-1").claim();
         final Set<String> subtaskKeys = ImmutableSet.copyOf(Iterables.transform(parentIssue
-                .getSubtasks(), new Function<Subtask, String>() {
+                .getSubtasks(), new Function<RelativeTask, String>() {
             @Override
-            public String apply(Subtask subtask) {
+            public String apply(RelativeTask subtask) {
                 return subtask.getIssueKey();
             }
         }));

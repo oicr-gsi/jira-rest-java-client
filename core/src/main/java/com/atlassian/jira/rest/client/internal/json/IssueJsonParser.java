@@ -31,10 +31,9 @@ import com.atlassian.jira.rest.client.api.domain.IssueFieldId;
 import com.atlassian.jira.rest.client.api.domain.IssueLink;
 import com.atlassian.jira.rest.client.api.domain.IssueType;
 import com.atlassian.jira.rest.client.api.domain.Operations;
-import com.atlassian.jira.rest.client.api.domain.ParentTask;
 import com.atlassian.jira.rest.client.api.domain.Resolution;
 import com.atlassian.jira.rest.client.api.domain.Status;
-import com.atlassian.jira.rest.client.api.domain.Subtask;
+import com.atlassian.jira.rest.client.api.domain.RelativeTask;
 import com.atlassian.jira.rest.client.api.domain.TimeTracking;
 import com.atlassian.jira.rest.client.api.domain.User;
 import com.atlassian.jira.rest.client.api.domain.Version;
@@ -109,8 +108,7 @@ public class IssueJsonParser implements JsonObjectParser<Issue> {
     private final BasicPriorityJsonParser priorityJsonParser = new BasicPriorityJsonParser();
     private final ResolutionJsonParser resolutionJsonParser = new ResolutionJsonParser();
     private final UserJsonParser userJsonParser = new UserJsonParser();
-    private final SubtaskJsonParser subtaskJsonParser = new SubtaskJsonParser();
-    private final ParentTaskJsonParser parentTaskJsonParser = new ParentTaskJsonParser();
+    private final RelativeTaskJsonParser relativeTaskJsonParser = new RelativeTaskJsonParser();
     private final ChangelogJsonParser changelogJsonParser = new ChangelogJsonParser();
     private final OperationsJsonParser operationsJsonParser = new OperationsJsonParser();
     private final JsonWeakParserForString jsonWeakParserForString = new JsonWeakParserForString();
@@ -242,7 +240,7 @@ public class IssueJsonParser implements JsonObjectParser<Issue> {
         final Collection<IssueLink> issueLinks;
         issueLinks = parseOptionalArray(issueJson, new JsonWeakParserForJsonObject<IssueLink>(issueLinkJsonParserV5), FIELDS, LINKS_FIELD.id);
 
-        Collection<Subtask> subtasks = parseOptionalArray(issueJson, new JsonWeakParserForJsonObject<Subtask>(subtaskJsonParser), FIELDS, SUBTASKS_FIELD.id);
+        Collection<RelativeTask> subtasks = parseOptionalArray(issueJson, new JsonWeakParserForJsonObject<RelativeTask>(relativeTaskJsonParser), FIELDS, SUBTASKS_FIELD.id);
 
         final BasicVotes votes = getOptionalNestedField(issueJson, VOTES_FIELD.id, votesJsonParser);
         final Status status = statusJsonParser.parse(getFieldUnisex(issueJson, STATUS_FIELD.id));
@@ -282,7 +280,7 @@ public class IssueJsonParser implements JsonObjectParser<Issue> {
                 issueJson, new JsonWeakParserForJsonObject<ChangelogGroup>(changelogJsonParser), "changelog", "histories");
         final Operations operations = parseOptionalJsonObject(issueJson, "operations", operationsJsonParser);
 
-        final ParentTask parentTask = getOptionalNestedField(issueJson, PARENTTASKS_FIELD.id, parentTaskJsonParser );
+        final RelativeTask parentTask = getOptionalNestedField(issueJson, PARENTTASKS_FIELD.id, relativeTaskJsonParser );
 
         return new Issue(summary, selfUri, basicIssue.getKey(), basicIssue.getId(), project, issueType, status,
                 description, priority, resolution, attachments, reporter, assignee, creationDate, updateDate,

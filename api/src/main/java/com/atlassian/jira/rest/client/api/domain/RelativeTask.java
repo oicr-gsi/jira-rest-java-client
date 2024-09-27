@@ -5,6 +5,9 @@ import com.google.common.base.Objects;
 
 import java.net.URI;
 
+/**
+ *
+ */
 public class RelativeTask {
 	
 	private final String issueKey;
@@ -51,6 +54,7 @@ public class RelativeTask {
 				add("status", status).
 				toString();
 	}
+	
 	
 	@Override
 	public boolean equals(Object obj) {
