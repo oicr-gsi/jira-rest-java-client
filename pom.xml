@@ -11,7 +11,7 @@
 
     <groupId>com.atlassian.jira</groupId>
     <artifactId>jira-rest-java-client-parent</artifactId>
-    <version>5.2.7-SNAPSHOT</version>
+    <version>6.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>JIRA REST Java Client</name>
@@ -43,139 +43,24 @@
     </issueManagement>
 
     <properties>
-        <platform.version>5.2.34</platform.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jira.version>8.18.0-QR-20210527053111</jira.version>
+        <jira.version>10.0.0-QR-20240703083404</jira.version>
         <jira.data.version>${jira.version}</jira.data.version>
         <jira.test-lib.version>${jira.version}</jira.test-lib.version>
-        <jersey.client.version>2.35</jersey.client.version>
-        <jettison.version>1.5.4</jettison.version>
-        <joda.time.version>2.9.9</joda.time.version>
-        <atlassian.httpclient.version>2.1.5</atlassian.httpclient.version>
-        <httpcore.version>4.4.8</httpcore.version>
-        <amps.version>6.3.22-fc341f3d2</amps.version>
-        <testkit.version>8.1.5</testkit.version>
-        <atlassian.util.concurrent>4.0.1</atlassian.util.concurrent>
-        <guava.version>32.0.1-jre</guava.version>
-        <jackson.version>1.9.13-atlassian-4</jackson.version>
-        <commons.codec.version>1.15</commons.codec.version>
+        <amps.version>8.17.2</amps.version>
+        <testkit.version>10.0.3</testkit.version>
+        <jdkLevel>16</jdkLevel>
+        <requireJavaVersion>16</requireJavaVersion>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.atlassian.platform</groupId>
-                <artifactId>platform</artifactId>
-                <version>${platform.version}</version>
+                <groupId>com.atlassian.jira</groupId>
+                <artifactId>jira-internal-bom</artifactId>
+                <version>${jira.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.atlassian.platform</groupId>
-                <artifactId>third-party</artifactId>
-                <version>${platform.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpcore</artifactId>
-                <version>${httpcore.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpcore-nio</artifactId>
-                <version>${httpcore.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient</artifactId>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient-cache</artifactId>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpmime</artifactId>
-            </dependency>
-
-            <dependency>
-                <groupId>joda-time</groupId>
-                <artifactId>joda-time</artifactId>
-                <version>${joda.time.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.jersey.core</groupId>
-                <artifactId>jersey-client</artifactId>
-                <version>${jersey.client.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.jersey.media</groupId>
-                <artifactId>jersey-media-json-jettison</artifactId>
-                <version>${jersey.client.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jettison</groupId>
-                <artifactId>jettison</artifactId>
-                <version>${jettison.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jackson</groupId>
-                <artifactId>jackson-core-asl</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jackson</groupId>
-                <artifactId>jackson-mapper-asl</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jackson</groupId>
-                <artifactId>jackson-jaxrs</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jackson</groupId>
-                <artifactId>jackson-xc</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.atlassian.httpclient</groupId>
-                <artifactId>atlassian-httpclient-api</artifactId>
-                <version>${atlassian.httpclient.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.atlassian.httpclient</groupId>
-                <artifactId>atlassian-httpclient-library</artifactId>
-                <version>${atlassian.httpclient.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>2.8.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>3.5</version>
-            </dependency>
-            <dependency>
-                <groupId>io.atlassian.util.concurrent</groupId>
-                <artifactId>atlassian-util-concurrent</artifactId>
-                <version>${atlassian.util.concurrent}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-codec</groupId>
-                <artifactId>commons-codec</artifactId>
-                <version>${commons.codec.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -236,6 +121,20 @@
             </plugin>
         </plugins>
     </reporting>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <source>16</source>
+                    <target>16</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <profiles>
         <profile>

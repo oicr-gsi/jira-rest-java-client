@@ -1,5 +1,6 @@
 package it;
 
+import com.atlassian.jira.functest.rule.BeforeBuildRule;
 import com.atlassian.jira.rest.client.api.AuditRestClient;
 import com.atlassian.jira.rest.client.api.OptionalIterable;
 import com.atlassian.jira.rest.client.api.domain.AuditAssociatedItem;
@@ -9,6 +10,7 @@ import com.atlassian.jira.rest.client.api.domain.AuditRecordsData;
 import com.atlassian.jira.rest.client.api.domain.input.AuditRecordBuilder;
 import com.atlassian.jira.rest.client.api.domain.input.AuditRecordSearchInput;
 import com.atlassian.jira.rest.client.api.domain.input.UserInput;
+import com.atlassian.jira.rest.client.internal.ServerVersionConstants;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -67,6 +69,7 @@ public class AsynchronousAuditRestClientTest extends AbstractAsynchronousRestCli
             new ArrayList<>()
     );
 
+    @BeforeBuildRule.BeforeBuild(buildNumber = ServerVersionConstants.BN_JIRA_10_0)
     @Test
     public void testGetAllRecordsAndFilterThemByGivenAuditEvent() {
         client.getUserClient().createUser(USER_JOHN).claim();
@@ -102,6 +105,7 @@ public class AsynchronousAuditRestClientTest extends AbstractAsynchronousRestCli
      * Jira 8.8.0. After Jira 8.8.0 it is hard to predict the number of audit events due to generation events from the
      * framework itself. One such an example event is "search performed".
      */
+    @BeforeBuildRule.BeforeBuild(buildNumber = ServerVersionConstants.BN_JIRA_10_0)
     @Test
     public void testGetRecordsWithOffset() {
         // given
@@ -123,6 +127,7 @@ public class AsynchronousAuditRestClientTest extends AbstractAsynchronousRestCli
                 allAuditRecordsSize > offsetedAuditRecordsSize);
     }
 
+    @BeforeBuildRule.BeforeBuild(buildNumber = ServerVersionConstants.BN_JIRA_10_0)
     @Test
     public void testGetRecordsWithLimit() {
         // when
@@ -137,6 +142,7 @@ public class AsynchronousAuditRestClientTest extends AbstractAsynchronousRestCli
         assertThat(limitedAuditRecords, hasSize(limit));
     }
 
+    @BeforeBuildRule.BeforeBuild(buildNumber = ServerVersionConstants.BN_JIRA_10_0)
     @Test
     public void testGetRecordsWithFilter() {
         client.getUserClient().createUser(USER_WILL).claim();
@@ -154,6 +160,7 @@ public class AsynchronousAuditRestClientTest extends AbstractAsynchronousRestCli
         assertThat(record.getCategory(), is(USER_MANAGEMENT));
     }
 
+    @BeforeBuildRule.BeforeBuild(buildNumber = ServerVersionConstants.BN_JIRA_10_0)
     @Test
     public void testAddSimpleRecord() {
         // given
@@ -222,6 +229,7 @@ public class AsynchronousAuditRestClientTest extends AbstractAsynchronousRestCli
         assertThat(item.getTypeName(), is("PROJECT"));
     }
 
+    @BeforeBuildRule.BeforeBuild(buildNumber = ServerVersionConstants.BN_JIRA_10_0)
     @Test
     public void shouldReturnNoRecordsWhenFilteringForTomorrow() {
         final DateTime tomorrow = new DateMidnight().plus(Period.days(1)).toDateTime();
@@ -231,6 +239,7 @@ public class AsynchronousAuditRestClientTest extends AbstractAsynchronousRestCli
         assertThat(auditRecordsData.getRecords(), Matchers.emptyIterable());
     }
 
+    @BeforeBuildRule.BeforeBuild(buildNumber = ServerVersionConstants.BN_JIRA_10_0)
     @Test
     public void shouldReturnAllRecordsWhenFilteringToLatestCreationDate() {
         // given
@@ -246,6 +255,7 @@ public class AsynchronousAuditRestClientTest extends AbstractAsynchronousRestCli
         assertThat(auditRecordsData.getRecords(), hasSameIdsAs(firstPageOfRecords.getRecords()));
     }
 
+    @BeforeBuildRule.BeforeBuild(buildNumber = ServerVersionConstants.BN_JIRA_10_0)
     @Test
     public void shouldReturnLatestItemWhenFilteringFromLatestCreationDate() {
         final AuditRecord latestCreatedRecord = getLatestCreatedRecord();

@@ -17,7 +17,8 @@
 package it;
 
 import com.atlassian.jira.functest.framework.admin.GeneralConfiguration;
-import com.atlassian.jira.nimblefunctests.annotation.JiraBuildNumberDependent;
+import com.atlassian.jira.functest.rule.BeforeBuildRule;
+import com.atlassian.jira.functest.rule.SinceBuildRule;
 import com.atlassian.jira.rest.client.IntegrationTestUtil;
 import com.atlassian.jira.rest.client.TestUtil;
 import com.atlassian.jira.rest.client.api.ExpandableProperty;
@@ -32,7 +33,7 @@ import javax.ws.rs.core.Response;
 
 import static com.atlassian.jira.rest.client.IntegrationTestUtil.USER_SLASH;
 import static com.atlassian.jira.rest.client.IntegrationTestUtil.USER_SLASH_60;
-import static com.atlassian.jira.rest.client.internal.ServerVersionConstants.BN_JIRA_4_3;
+import static com.atlassian.jira.rest.client.internal.ServerVersionConstants.BN_JIRA_10_0;
 import static com.atlassian.jira.rest.client.internal.json.TestConstants.ADMIN_USERNAME;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -66,9 +67,21 @@ public class AsynchronousUserRestClientTest extends AbstractAsynchronousRestClie
     }
 
     @Test
+    @BeforeBuildRule.BeforeBuild(buildNumber = BN_JIRA_10_0)
     public void testGetUserWithSlash() {
         final User user = client.getUserClient().getUser(USER_SLASH.getName()).claim();
         assertEquals(USER_SLASH_60.getSelf(), user.getSelf());
+        assertEquals(USER_SLASH_60.getDisplayName(), user.getDisplayName());
+    }
+
+    @Test
+    @SinceBuildRule.SinceBuild(buildNumber = BN_JIRA_10_0)
+    public void testGetUserWithSlash_Jira10() {
+        final User user = client.getUserClient().getUser(USER_SLASH.getName()).claim();
+        // escape slashes in query
+        assertEquals(USER_SLASH_60.getSelf().toString()
+                .replace(USER_SLASH_60.getSelf().getQuery(),
+                        USER_SLASH_60.getSelf().getQuery().replace("/", "%2F")), user.getSelf().toString());
         assertEquals(USER_SLASH_60.getDisplayName(), user.getDisplayName());
     }
 
@@ -97,7 +110,6 @@ public class AsynchronousUserRestClientTest extends AbstractAsynchronousRestClie
     }
 
     // Email Visibility is respected in REST since 4.3
-    @JiraBuildNumberDependent(BN_JIRA_4_3)
     @Test
     public void testGetUserWhenEmailVisibilityIsHidden() throws JSONException {
         administration.generalConfiguration().setUserEmailVisibility(GeneralConfiguration.EmailVisibility.HIDDEN);
@@ -122,7 +134,6 @@ public class AsynchronousUserRestClientTest extends AbstractAsynchronousRestClie
     }
 
     // Email Visibility is respected in REST since 4.3
-    @JiraBuildNumberDependent(BN_JIRA_4_3)
     @Test
     public void testGetUserWhenEmailVisibilityIsMasked() throws JSONException {
         administration.generalConfiguration().setUserEmailVisibility(GeneralConfiguration.EmailVisibility.MASKED);
