@@ -17,8 +17,6 @@
 package it;
 
 import com.atlassian.jira.functest.framework.UserProfile;
-import com.atlassian.jira.nimblefunctests.annotation.JiraBuildNumberDependent;
-import com.atlassian.jira.nimblefunctests.annotation.LongCondition;
 import com.atlassian.jira.rest.client.IntegrationTestUtil;
 import com.atlassian.jira.rest.client.TestUtil;
 import com.atlassian.jira.rest.client.api.IssueRestClient;
@@ -82,7 +80,6 @@ import static com.atlassian.jira.rest.client.IntegrationTestUtil.USER2;
 import static com.atlassian.jira.rest.client.TestUtil.assertErrorCode;
 import static com.atlassian.jira.rest.client.TestUtil.assertExpectedErrorCollection;
 import static com.atlassian.jira.rest.client.internal.ServerVersionConstants.BN_JIRA_4_3;
-import static com.atlassian.jira.rest.client.internal.ServerVersionConstants.BN_JIRA_5;
 import static com.atlassian.jira.rest.client.internal.json.TestConstants.ADMIN_PASSWORD;
 import static com.atlassian.jira.rest.client.internal.json.TestConstants.ADMIN_USERNAME;
 import static com.atlassian.jira.rest.client.internal.json.TestConstants.USER1_USERNAME;
@@ -245,7 +242,6 @@ public class AsynchronousIssueRestClientTest extends AbstractAsynchronousRestCli
         issueClient.deleteIssue(issueKey, false).claim();
     }
 
-    @JiraBuildNumberDependent(BN_JIRA_5)
     @Test
     public void testUpdateField() {
         final Issue issue = client.getIssueClient().getIssue("TST-1").claim();
@@ -257,7 +253,6 @@ public class AsynchronousIssueRestClientTest extends AbstractAsynchronousRestCli
         assertEquals(newValue, changedIssue.getField(NUMERIC_CUSTOMFIELD_ID).getValue());
     }
 
-    @JiraBuildNumberDependent(BN_JIRA_5)
     @Test
     public void testUpdateMultipleFields() {
         final Issue issue = client.getIssueClient().getIssue("TST-1").claim();
@@ -276,7 +271,6 @@ public class AsynchronousIssueRestClientTest extends AbstractAsynchronousRestCli
         assertEquals(newTextValue, changedIssue.getField(TEXT_CUSTOMFIELD_ID).getValue());
     }
 
-    @JiraBuildNumberDependent(BN_JIRA_5)
     @Test
     public void testUpdateIssueWithInvalidAdditionalField() {
         final Issue issue = client.getIssueClient().getIssue("TST-1").claim();
@@ -289,7 +283,6 @@ public class AsynchronousIssueRestClientTest extends AbstractAsynchronousRestCli
         client.getIssueClient().updateIssue(issue.getKey(), IssueInput.createWithFields(fieldInput)).claim();
     }
 
-    @JiraBuildNumberDependent(BN_JIRA_5)
     @Test
     public void testUpdateIssueWithoutPermissions() {
         setUser2();
@@ -584,31 +577,26 @@ public class AsynchronousIssueRestClientTest extends AbstractAsynchronousRestCli
                 });
     }
 
-    @JiraBuildNumberDependent(BN_JIRA_4_3)
     @Test
     public void testLinkIssuesWithRoleLevel() {
         testLinkIssuesImpl(Comment.createWithRoleLevel("A comment about linking", "Administrators"));
     }
 
-    @JiraBuildNumberDependent(BN_JIRA_4_3)
     @Test
     public void testLinkIssuesWithGroupLevel() {
         testLinkIssuesImpl(Comment.createWithGroupLevel("A comment about linking", "jira-administrators"));
     }
 
-    @JiraBuildNumberDependent(BN_JIRA_4_3)
     @Test
     public void testLinkIssuesWithSimpleComment() {
         testLinkIssuesImpl(Comment.valueOf("A comment about linking"));
     }
 
-    @JiraBuildNumberDependent(BN_JIRA_4_3)
     @Test
     public void testLinkIssuesWithoutComment() {
         testLinkIssuesImpl(null);
     }
 
-    @JiraBuildNumberDependent(BN_JIRA_4_3)
     @Test
     public void testLinkIssuesWithInvalidParams() {
         assertErrorCode(Response.Status.NOT_FOUND,
@@ -665,19 +653,6 @@ public class AsynchronousIssueRestClientTest extends AbstractAsynchronousRestCli
         });
     }
 
-    @JiraBuildNumberDependent(condition = LongCondition.LESS_THAN, value = 6211)
-    @Test
-    public void testLinkIssuesWithInvalidParamsBeforeUpgradeTask6211() {
-        setUser2();
-        assertErrorCode(Response.Status.UNAUTHORIZED, "No Link Issue Permission for issue 'TST-7'", new Runnable() {
-            @Override
-            public void run() {
-                client.getIssueClient().linkIssue(new LinkIssuesInput("TST-7", "TST-6", "Duplicate", null)).claim();
-            }
-        });
-    }
-
-    @JiraBuildNumberDependent(6211)
     @Test
     public void testLinkIssuesForUserRoleLevelAfterUpgradeTask6211() {
         testLinkIssuesImpl(Comment.createWithRoleLevel("A comment about linking", "Users"));

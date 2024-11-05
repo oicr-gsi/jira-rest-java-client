@@ -1,6 +1,7 @@
 package it;
 
-import com.atlassian.jira.nimblefunctests.framework.NimbleFuncTestCase;
+import com.atlassian.jira.functest.framework.Administration;
+import com.atlassian.jira.functest.framework.BaseJiraFuncTest;
 import com.atlassian.jira.rest.client.IntegrationTestUtil;
 import com.atlassian.jira.rest.client.internal.json.TestConstants;
 import com.atlassian.jira.testkit.client.Backdoor;
@@ -8,9 +9,12 @@ import com.atlassian.jira.testkit.client.util.TestKitLocalEnvironmentData;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class RestoreDataDevHelperButNotRealTest extends NimbleFuncTestCase {
+import javax.inject.Inject;
 
-    private final Backdoor backdoor = new Backdoor(new TestKitLocalEnvironmentData());
+public class RestoreDataDevHelperButNotRealTest extends BaseJiraFuncTest {
+
+    @Inject
+    private Administration administration;
 
     @Ignore // test disabled on CI, enable before use
     @Test

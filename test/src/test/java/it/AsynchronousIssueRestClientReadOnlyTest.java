@@ -15,16 +15,12 @@
  */
 package it;
 
-import com.atlassian.jira.nimblefunctests.annotation.JiraBuildNumberDependent;
 import com.atlassian.jira.rest.client.IntegrationTestUtil;
-import com.atlassian.jira.rest.client.api.GetCreateIssueMetadataOptionsBuilder;
 import com.atlassian.jira.rest.client.api.domain.Attachment;
 import com.atlassian.jira.rest.client.api.domain.BasicUser;
 import com.atlassian.jira.rest.client.api.domain.ChangelogGroup;
 import com.atlassian.jira.rest.client.api.domain.ChangelogItem;
 import com.atlassian.jira.rest.client.api.domain.CimFieldInfo;
-import com.atlassian.jira.rest.client.api.domain.CimIssueType;
-import com.atlassian.jira.rest.client.api.domain.CimProject;
 import com.atlassian.jira.rest.client.api.domain.Comment;
 import com.atlassian.jira.rest.client.api.domain.FieldType;
 import com.atlassian.jira.rest.client.api.domain.Issue;
@@ -39,7 +35,6 @@ import com.atlassian.jira.rest.client.api.domain.Votes;
 import com.atlassian.jira.rest.client.api.domain.Watchers;
 import com.atlassian.jira.rest.client.api.domain.Worklog;
 import com.atlassian.jira.rest.client.internal.json.TestConstants;
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
@@ -51,7 +46,6 @@ import org.junit.Test;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
-import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
@@ -62,8 +56,6 @@ import static com.atlassian.jira.rest.client.IntegrationTestUtil.getUserUri;
 import static com.atlassian.jira.rest.client.TestUtil.assertErrorCode;
 import static com.atlassian.jira.rest.client.api.IssueRestClient.Expandos.CHANGELOG;
 import static com.atlassian.jira.rest.client.api.IssueRestClient.Expandos.OPERATIONS;
-import static com.atlassian.jira.rest.client.internal.ServerVersionConstants.BN_JIRA_5;
-import static com.atlassian.jira.rest.client.internal.ServerVersionConstants.BN_JIRA_8_4;
 import static com.google.common.collect.Iterables.size;
 import static com.google.common.collect.Iterables.toArray;
 import static java.util.Collections.singletonList;
@@ -71,7 +63,6 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.instanceOf;
@@ -296,7 +287,6 @@ public class AsynchronousIssueRestClientReadOnlyTest extends AbstractAsynchronou
                         .<Transition.Field>emptyList())));
     }
 
-    @JiraBuildNumberDependent(BN_JIRA_8_4)
     @Test
     public void testGetCreateIssueMetaProjectIssueTypes() throws Exception {
         final Page<IssueType> issueTypes = client.getIssueClient().getCreateIssueMetaProjectIssueTypes("ANONEDIT", null, null).claim();
@@ -309,7 +299,6 @@ public class AsynchronousIssueRestClientReadOnlyTest extends AbstractAsynchronou
                 contains("Bug", "New Feature", "Task", "Improvement", "Sub-task"));
     }
 
-    @JiraBuildNumberDependent(BN_JIRA_8_4)
     @Test
     public void testGetCreateIssueMetaFields() throws Exception {
         final Page<CimFieldInfo> fields = client.getIssueClient().getCreateIssueMetaFields("ANONEDIT", "1", null, null).claim();
