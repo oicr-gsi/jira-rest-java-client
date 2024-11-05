@@ -33,7 +33,7 @@ import com.atlassian.jira.rest.client.api.domain.IssueType;
 import com.atlassian.jira.rest.client.api.domain.Operations;
 import com.atlassian.jira.rest.client.api.domain.Resolution;
 import com.atlassian.jira.rest.client.api.domain.Status;
-import com.atlassian.jira.rest.client.api.domain.Subtask;
+import com.atlassian.jira.rest.client.api.domain.RelativeTask;
 import com.atlassian.jira.rest.client.api.domain.TimeTracking;
 import com.atlassian.jira.rest.client.api.domain.User;
 import com.atlassian.jira.rest.client.api.domain.Version;
@@ -76,6 +76,7 @@ import static com.atlassian.jira.rest.client.api.domain.IssueFieldId.REPORTER_FI
 import static com.atlassian.jira.rest.client.api.domain.IssueFieldId.RESOLUTION_FIELD;
 import static com.atlassian.jira.rest.client.api.domain.IssueFieldId.STATUS_FIELD;
 import static com.atlassian.jira.rest.client.api.domain.IssueFieldId.SUBTASKS_FIELD;
+import static com.atlassian.jira.rest.client.api.domain.IssueFieldId.PARENTTASKS_FIELD;
 import static com.atlassian.jira.rest.client.api.domain.IssueFieldId.SUMMARY_FIELD;
 import static com.atlassian.jira.rest.client.api.domain.IssueFieldId.TIMETRACKING_FIELD;
 import static com.atlassian.jira.rest.client.api.domain.IssueFieldId.UPDATED_FIELD;
@@ -107,7 +108,7 @@ public class IssueJsonParser implements JsonObjectParser<Issue> {
     private final BasicPriorityJsonParser priorityJsonParser = new BasicPriorityJsonParser();
     private final ResolutionJsonParser resolutionJsonParser = new ResolutionJsonParser();
     private final UserJsonParser userJsonParser = new UserJsonParser();
-    private final SubtaskJsonParser subtaskJsonParser = new SubtaskJsonParser();
+    private final RelativeTaskJsonParser relativeTaskJsonParser = new RelativeTaskJsonParser();
     private final ChangelogJsonParser changelogJsonParser = new ChangelogJsonParser();
     private final OperationsJsonParser operationsJsonParser = new OperationsJsonParser();
     private final JsonWeakParserForString jsonWeakParserForString = new JsonWeakParserForString();
@@ -239,7 +240,7 @@ public class IssueJsonParser implements JsonObjectParser<Issue> {
         final Collection<IssueLink> issueLinks;
         issueLinks = parseOptionalArray(issueJson, new JsonWeakParserForJsonObject<IssueLink>(issueLinkJsonParserV5), FIELDS, LINKS_FIELD.id);
 
-        Collection<Subtask> subtasks = parseOptionalArray(issueJson, new JsonWeakParserForJsonObject<Subtask>(subtaskJsonParser), FIELDS, SUBTASKS_FIELD.id);
+        Collection<RelativeTask> subtasks = parseOptionalArray(issueJson, new JsonWeakParserForJsonObject<RelativeTask>(relativeTaskJsonParser), FIELDS, SUBTASKS_FIELD.id);
 
         final BasicVotes votes = getOptionalNestedField(issueJson, VOTES_FIELD.id, votesJsonParser);
         final Status status = statusJsonParser.parse(getFieldUnisex(issueJson, STATUS_FIELD.id));
@@ -279,11 +280,13 @@ public class IssueJsonParser implements JsonObjectParser<Issue> {
                 issueJson, new JsonWeakParserForJsonObject<ChangelogGroup>(changelogJsonParser), "changelog", "histories");
         final Operations operations = parseOptionalJsonObject(issueJson, "operations", operationsJsonParser);
 
+        final RelativeTask parentTask = getOptionalNestedField(issueJson, PARENTTASKS_FIELD.id, relativeTaskJsonParser );
+
         return new Issue(summary, selfUri, basicIssue.getKey(), basicIssue.getId(), project, issueType, status,
                 description, priority, resolution, attachments, reporter, assignee, creationDate, updateDate,
                 dueDate, affectedVersions, fixVersions, components, timeTracking, fields, comments,
                 transitionsUri, issueLinks,
-                votes, worklogs, watchers, expandos, subtasks, changelog, operations, labels);
+                votes, worklogs, watchers, expandos, parentTask, subtasks, changelog, operations, labels);
     }
 
     private URI parseTransisionsUri(final String transitionsUriString, final URI selfUri) {

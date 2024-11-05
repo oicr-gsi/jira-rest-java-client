@@ -19,7 +19,6 @@ package com.atlassian.jira.rest.client.api.domain;
 import com.atlassian.jira.rest.client.api.ExpandableResource;
 import com.atlassian.jira.rest.client.api.domain.util.UriUtil;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nullable;
@@ -44,7 +43,8 @@ public class Issue extends BasicIssue implements ExpandableResource {
                  @Nullable URI transitionsUri,
                  @Nullable Collection<IssueLink> issueLinks,
                  BasicVotes votes, Collection<Worklog> worklogs, BasicWatchers watchers, Iterable<String> expandos,
-                 @Nullable Collection<Subtask> subtasks, @Nullable Collection<ChangelogGroup> changelog, @Nullable Operations operations,
+                 @Nullable RelativeTask parentTask, @Nullable Collection<RelativeTask> subtasks,
+                 @Nullable Collection<ChangelogGroup> changelog, @Nullable Operations operations,
                  Set<String> labels) {
         super(self, key, id);
         this.summary = summary;
@@ -72,6 +72,7 @@ public class Issue extends BasicIssue implements ExpandableResource {
         this.components = components;
         this.priority = priority;
         this.timeTracking = timeTracking;
+        this.parentTask = parentTask;
         this.subtasks = subtasks;
         this.changelog = changelog;
         this.operations = operations;
@@ -116,7 +117,9 @@ public class Issue extends BasicIssue implements ExpandableResource {
     @Nullable
     private final TimeTracking timeTracking;
     @Nullable
-    private final Collection<Subtask> subtasks;
+    private final RelativeTask parentTask;
+    @Nullable
+    private final Collection<RelativeTask> subtasks;
     @Nullable
     private final Collection<ChangelogGroup> changelog;
     @Nullable
@@ -165,8 +168,13 @@ public class Issue extends BasicIssue implements ExpandableResource {
     }
 
     @Nullable
-    public Iterable<Subtask> getSubtasks() {
+    public Iterable<RelativeTask> getSubtasks() {
         return subtasks;
+    }
+
+    @Nullable
+    public RelativeTask getParentTask() {
+        return parentTask;
     }
 
     /**

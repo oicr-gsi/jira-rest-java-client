@@ -36,7 +36,7 @@ import com.atlassian.jira.rest.client.api.domain.OperationGroup;
 import com.atlassian.jira.rest.client.api.domain.OperationHeader;
 import com.atlassian.jira.rest.client.api.domain.OperationLink;
 import com.atlassian.jira.rest.client.api.domain.Operations;
-import com.atlassian.jira.rest.client.api.domain.Subtask;
+import com.atlassian.jira.rest.client.api.domain.RelativeTask;
 import com.atlassian.jira.rest.client.api.domain.TimeTracking;
 import com.atlassian.jira.rest.client.api.domain.Visibility;
 import com.atlassian.jira.rest.client.api.domain.Worklog;
@@ -312,9 +312,9 @@ public class IssueJsonParserTest {
     @Test
     public void issueWithSubtasks() throws JSONException {
         final Issue issue = parseIssue("/json/issue/subtasks-5.json");
-        Iterable<Subtask> subtasks = issue.getSubtasks();
+        Iterable<RelativeTask> subtasks = issue.getSubtasks();
         assertEquals(1, Iterables.size(subtasks));
-        Subtask subtask = Iterables.get(subtasks, 0, null);
+        RelativeTask subtask = Iterables.get(subtasks, 0, null);
         assertNotNull(subtask);
         assertEquals("SAM-2", subtask.getIssueKey());
         assertEquals("Open", subtask.getStatus().getName());
