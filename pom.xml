@@ -65,8 +65,8 @@
         <jira.test-lib.version>${jira.version}</jira.test-lib.version>
         <amps.version>8.17.2</amps.version>
         <testkit.version>10.0.3</testkit.version>
-        <jdkLevel>16</jdkLevel>
-        <requireJavaVersion>16</requireJavaVersion>
+        <jdkLevel>17</jdkLevel>
+        <requireJavaVersion>17</requireJavaVersion>
     </properties>
 
     <dependencyManagement>
@@ -147,8 +147,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <encoding>UTF-8</encoding>
-                    <source>16</source>
-                    <target>16</target>
+                    <release>17</release>
                 </configuration>
             </plugin>
         </plugins>
