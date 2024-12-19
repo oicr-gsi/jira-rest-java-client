@@ -26,6 +26,15 @@
         </license>
     </licenses>
 
+    <distributionManagement>
+        <repository>
+            <id>deploy.artifacts.oicr</id>
+            <name>GSI Releases</name>
+            <url>https://artifacts.oicr.on.ca/artifactory/gsi-release</url>
+        </repository>
+        <downloadUrl>https://artifacts.oicr.on.ca/artifactory/gsi-release</downloadUrl>
+    </distributionManagement>
+
     <repositories>
         <repository>
             <id>atlassian-public</id>
