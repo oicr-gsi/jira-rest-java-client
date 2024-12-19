@@ -73,7 +73,7 @@ import org.codehaus.jettison.json.JSONObject;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriBuilder;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URI;
@@ -96,8 +96,10 @@ import static org.apache.http.entity.ContentType.DEFAULT_BINARY;
  */
 public class AsynchronousIssueRestClient extends AbstractAsynchronousRestClient implements IssueRestClient {
 
-    private static final EnumSet<Expandos> DEFAULT_EXPANDS = EnumSet.of(Expandos.NAMES, Expandos.SCHEMA, Expandos.TRANSITIONS);
-    private static final Function<IssueRestClient.Expandos, String> EXPANDO_TO_PARAM = from -> from.name().toLowerCase();
+    private static final EnumSet<Expandos> DEFAULT_EXPANDS = EnumSet.of(Expandos.NAMES, Expandos.SCHEMA,
+            Expandos.TRANSITIONS);
+    private static final Function<IssueRestClient.Expandos, String> EXPANDO_TO_PARAM = from -> from.name()
+            .toLowerCase();
     private final SessionRestClient sessionRestClient;
     private final MetadataRestClient metadataRestClient;
 
@@ -112,8 +114,9 @@ public class AsynchronousIssueRestClient extends AbstractAsynchronousRestClient 
     private final URI baseUri;
     private ServerInfo serverInfo;
 
-    public AsynchronousIssueRestClient(final URI baseUri, final HttpClient client, final SessionRestClient sessionRestClient,
-                                       final MetadataRestClient metadataRestClient) {
+    public AsynchronousIssueRestClient(final URI baseUri, final HttpClient client,
+            final SessionRestClient sessionRestClient,
+            final MetadataRestClient metadataRestClient) {
         super(client);
         this.baseUri = baseUri;
         this.sessionRestClient = sessionRestClient;
@@ -180,18 +183,22 @@ public class AsynchronousIssueRestClient extends AbstractAsynchronousRestClient 
     }
 
     @Override
-    public Promise<Page<IssueType>> getCreateIssueMetaProjectIssueTypes(@Nonnull final String projectIdOrKey, @Nullable final Long startAt,
-                                                                        @Nullable final Integer maxResults) {
-        final UriBuilder uriBuilder = UriBuilder.fromUri(baseUri).path("issue/createmeta/" + projectIdOrKey + "/issuetypes");
+    public Promise<Page<IssueType>> getCreateIssueMetaProjectIssueTypes(@Nonnull final String projectIdOrKey,
+            @Nullable final Long startAt,
+            @Nullable final Integer maxResults) {
+        final UriBuilder uriBuilder = UriBuilder.fromUri(baseUri)
+                .path("issue/createmeta/" + projectIdOrKey + "/issuetypes");
         addPagingParameters(uriBuilder, startAt, maxResults);
 
         return getAndParse(uriBuilder.build(), new CreateIssueMetaProjectIssueTypesParser());
     }
 
     @Override
-    public Promise<Page<CimFieldInfo>> getCreateIssueMetaFields(@Nonnull final String projectIdOrKey, @Nonnull final String issueTypeId,
-                                                                @Nullable final Long startAt, @Nullable final Integer maxResults) {
-        final UriBuilder uriBuilder = UriBuilder.fromUri(baseUri).path("issue/createmeta/" + projectIdOrKey + "/issuetypes/" + issueTypeId);
+    public Promise<Page<CimFieldInfo>> getCreateIssueMetaFields(@Nonnull final String projectIdOrKey,
+            @Nonnull final String issueTypeId,
+            @Nullable final Long startAt, @Nullable final Integer maxResults) {
+        final UriBuilder uriBuilder = UriBuilder.fromUri(baseUri)
+                .path("issue/createmeta/" + projectIdOrKey + "/issuetypes/" + issueTypeId);
         addPagingParameters(uriBuilder, startAt, maxResults);
 
         return getAndParse(uriBuilder.build(), new CreateIssueMetaFieldsParser());
@@ -207,7 +214,8 @@ public class AsynchronousIssueRestClient extends AbstractAsynchronousRestClient 
         final UriBuilder uriBuilder = UriBuilder.fromUri(baseUri);
         final Iterable<Expandos> expands = Iterables.concat(DEFAULT_EXPANDS, expand);
         uriBuilder.path("issue").path(issueKey).queryParam("expand",
-                StreamSupport.stream(expands.spliterator(), false).map(EXPANDO_TO_PARAM).collect(Collectors.joining(",")));
+                StreamSupport.stream(expands.spliterator(), false).map(EXPANDO_TO_PARAM)
+                        .collect(Collectors.joining(",")));
         return getAndParse(uriBuilder.build(), issueParser);
     }
 
@@ -233,15 +241,18 @@ public class AsynchronousIssueRestClient extends AbstractAsynchronousRestClient 
                 (ResponseHandler<Iterable<Transition>>) response -> {
                     final JSONObject jsonObject = new JSONObject(response.getEntity());
                     if (jsonObject.has("transitions")) {
-                        return JsonParseUtil.parseJsonArray(jsonObject.getJSONArray("transitions"), transitionJsonParserV5);
+                        return JsonParseUtil.parseJsonArray(jsonObject.getJSONArray("transitions"),
+                                transitionJsonParserV5);
                     } else {
                         final Collection<Transition> transitions = new ArrayList<>(jsonObject.length());
-                        @SuppressWarnings("unchecked") final Iterator<String> iterator = jsonObject.keys();
+                        @SuppressWarnings("unchecked")
+                        final Iterator<String> iterator = jsonObject.keys();
                         while (iterator.hasNext()) {
                             final String key = iterator.next();
                             try {
                                 final int id = Integer.parseInt(key);
-                                final Transition transition = transitionJsonParser.parse(jsonObject.getJSONObject(key), id);
+                                final Transition transition = transitionJsonParser.parse(jsonObject.getJSONObject(key),
+                                        id);
                                 transitions.add(transition);
                             } catch (JSONException e) {
                                 throw new RestClientException(e);
@@ -252,8 +263,7 @@ public class AsynchronousIssueRestClient extends AbstractAsynchronousRestClient 
                         }
                         return transitions;
                     }
-                }
-        );
+                });
     }
 
     @Override
@@ -262,7 +272,8 @@ public class AsynchronousIssueRestClient extends AbstractAsynchronousRestClient 
             return getTransitions(issue.getTransitionsUri());
         } else {
             final UriBuilder transitionsUri = UriBuilder.fromUri(issue.getSelf());
-            return getTransitions(transitionsUri.path("transitions").queryParam("expand", "transitions.fields").build());
+            return getTransitions(
+                    transitionsUri.path("transitions").queryParam("expand", "transitions.fields").build());
         }
     }
 
@@ -429,7 +440,8 @@ public class AsynchronousIssueRestClient extends AbstractAsynchronousRestClient 
         }
     }
 
-    private Promise<Void> postAttachments(final URI attachmentsUri, final MultipartEntityBuilder multipartEntityBuilder) {
+    private Promise<Void> postAttachments(final URI attachmentsUri,
+            final MultipartEntityBuilder multipartEntityBuilder) {
         final ResponsePromise responsePromise = client()
                 .newRequest(attachmentsUri)
                 .setEntity(new MultiPartEntityBuilder(multipartEntityBuilder.build()))

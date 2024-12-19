@@ -32,7 +32,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import javax.annotation.Nullable;
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriBuilder;
 import java.net.URI;
 
 /**
@@ -66,7 +66,7 @@ public class AsynchronousVersionRestClient extends AbstractAsynchronousRestClien
 
     @Override
     public Promise<Void> removeVersion(final URI versionUri, final @Nullable URI moveFixIssuesToVersionUri,
-                                       final @Nullable URI moveAffectedIssuesToVersionUri) {
+            final @Nullable URI moveAffectedIssuesToVersionUri) {
         final UriBuilder uriBuilder = UriBuilder.fromUri(versionUri);
         if (moveFixIssuesToVersionUri != null) {
             uriBuilder.queryParam("moveFixIssuesTo", moveFixIssuesToVersionUri);

@@ -11,7 +11,7 @@ import com.atlassian.jira.rest.client.internal.json.gen.AuditRecordInputJsonGene
 import io.atlassian.util.concurrent.Promise;
 
 import javax.annotation.Nonnull;
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriBuilder;
 import java.net.URI;
 
 /**

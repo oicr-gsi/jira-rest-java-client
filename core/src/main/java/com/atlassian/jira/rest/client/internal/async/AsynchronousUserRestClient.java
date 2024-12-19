@@ -25,7 +25,7 @@ import com.atlassian.jira.rest.client.internal.json.gen.UserInputJsonGenerator;
 import io.atlassian.util.concurrent.Promise;
 
 import javax.annotation.Nullable;
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriBuilder;
 import java.net.URI;
 
 /**
@@ -91,7 +91,7 @@ public class AsynchronousUserRestClient extends AbstractAsynchronousRestClient i
     public Promise<Iterable<User>> findUsers(String username, @Nullable Integer startAt, @Nullable Integer maxResults,
             @Nullable Boolean includeActive, @Nullable Boolean includeInactive) {
 
-         UriBuilder uriBuilder = UriBuilder.fromUri(baseUri).path(USER_URI_PREFIX).path(SEARCH_URI_PREFIX)
+        UriBuilder uriBuilder = UriBuilder.fromUri(baseUri).path(USER_URI_PREFIX).path(SEARCH_URI_PREFIX)
                 .queryParam(USERNAME_ATTRIBUTE, username);
 
         addOptionalQueryParam(uriBuilder, START_AT_ATTRIBUTE, startAt);

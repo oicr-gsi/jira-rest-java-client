@@ -22,10 +22,11 @@ import com.atlassian.jira.rest.client.api.domain.input.MyPermissionsInput;
 import com.atlassian.jira.rest.client.internal.json.PermissionsJsonParser;
 import io.atlassian.util.concurrent.Promise;
 
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriBuilder;
 import java.net.URI;
 
-public class AsynchronousMyPermissionsRestClient extends AbstractAsynchronousRestClient implements MyPermissionsRestClient {
+public class AsynchronousMyPermissionsRestClient extends AbstractAsynchronousRestClient
+        implements MyPermissionsRestClient {
     private static final String URI_PREFIX = "mypermissions";
     private final URI baseUri;
     private final PermissionsJsonParser permissionsJsonParser = new PermissionsJsonParser();
