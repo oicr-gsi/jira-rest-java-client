@@ -34,7 +34,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import javax.annotation.Nullable;
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriBuilder;
 import java.net.URI;
 import java.util.Set;
 
@@ -85,7 +85,8 @@ public class AsynchronousSearchRestClient extends AbstractAsynchronousRestClient
         return searchJql(jql, null, null, null);
     }
 
-    public Promise<SearchResult> searchJql(@Nullable String jql, @Nullable Integer maxResults, @Nullable Integer startAt, @Nullable Set<String> fields) {
+    public Promise<SearchResult> searchJql(@Nullable String jql, @Nullable Integer maxResults,
+            @Nullable Integer startAt, @Nullable Set<String> fields) {
         final Iterable<String> expandosValues = Iterables.transform(ImmutableList.of(SCHEMA, NAMES), EXPANDO_TO_PARAM);
         final String notNullJql = StringUtils.defaultString(jql);
         if (notNullJql.length() > MAX_JQL_LENGTH_FOR_HTTP_GET) {
@@ -95,7 +96,8 @@ public class AsynchronousSearchRestClient extends AbstractAsynchronousRestClient
         }
     }
 
-    private Promise<SearchResult> searchJqlImplGet(@Nullable Integer maxResults, @Nullable Integer startAt, Iterable<String> expandosValues, String jql, @Nullable Set<String> fields) {
+    private Promise<SearchResult> searchJqlImplGet(@Nullable Integer maxResults, @Nullable Integer startAt,
+            Iterable<String> expandosValues, String jql, @Nullable Set<String> fields) {
         final UriBuilder uriBuilder = UriBuilder.fromUri(searchUri)
                 .queryParam(JQL_ATTRIBUTE, jql)
                 .queryParam(EXPAND_ATTRIBUTE, Joiner.on(",").join(expandosValues));
@@ -115,7 +117,8 @@ public class AsynchronousSearchRestClient extends AbstractAsynchronousRestClient
         }
     }
 
-    private Promise<SearchResult> searchJqlImplPost(@Nullable Integer maxResults, @Nullable Integer startAt, Iterable<String> expandosValues, String jql, @Nullable Set<String> fields) {
+    private Promise<SearchResult> searchJqlImplPost(@Nullable Integer maxResults, @Nullable Integer startAt,
+            Iterable<String> expandosValues, String jql, @Nullable Set<String> fields) {
         final JSONObject postEntity = new JSONObject();
 
         try {

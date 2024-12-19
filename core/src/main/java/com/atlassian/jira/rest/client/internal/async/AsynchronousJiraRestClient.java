@@ -29,7 +29,7 @@ import com.atlassian.jira.rest.client.api.SessionRestClient;
 import com.atlassian.jira.rest.client.api.UserRestClient;
 import com.atlassian.jira.rest.client.api.VersionRestClient;
 
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriBuilder;
 import java.io.IOException;
 import java.net.URI;
 
@@ -62,7 +62,7 @@ public class AsynchronousJiraRestClient implements JiraRestClient {
         sessionRestClient = new AsynchronousSessionRestClient(serverUri, httpClient);
         issueRestClient = new AsynchronousIssueRestClient(baseUri, httpClient, sessionRestClient, metadataRestClient);
         userRestClient = new AsynchronousUserRestClient(baseUri, httpClient);
-        groupRestClient  = new AsynchronousGroupRestClient(baseUri, httpClient);
+        groupRestClient = new AsynchronousGroupRestClient(baseUri, httpClient);
         projectRestClient = new AsynchronousProjectRestClient(baseUri, httpClient);
         componentRestClient = new AsynchronousComponentRestClient(baseUri, httpClient);
         searchRestClient = new AsynchronousSearchRestClient(baseUri, httpClient);
@@ -141,4 +141,3 @@ public class AsynchronousJiraRestClient implements JiraRestClient {
         }
     }
 }
-

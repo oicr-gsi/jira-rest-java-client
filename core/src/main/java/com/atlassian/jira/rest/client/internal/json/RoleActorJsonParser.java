@@ -19,9 +19,8 @@ import com.atlassian.jira.rest.client.api.domain.RoleActor;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriBuilder;
 import java.net.URI;
-
 
 public class RoleActorJsonParser implements JsonObjectParser<RoleActor> {
 
@@ -33,7 +32,8 @@ public class RoleActorJsonParser implements JsonObjectParser<RoleActor> {
 
     @Override
     public RoleActor parse(final JSONObject json) throws JSONException {
-        // Workaround for a bug in API. Id field should not be optional, unfortunately it is not returned for an admin role actor.
+        // Workaround for a bug in API. Id field should not be optional, unfortunately
+        // it is not returned for an admin role actor.
         final Long id = JsonParseUtil.getOptionalLong(json, "id");
         final String displayName = json.getString("displayName");
         final String type = json.getString("type");

@@ -26,7 +26,7 @@ import com.google.common.collect.Iterables;
 import io.atlassian.util.concurrent.Promise;
 import io.atlassian.util.concurrent.Promises;
 
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriBuilder;
 import java.net.URI;
 import java.util.Collection;
 
@@ -35,7 +35,8 @@ import java.util.Collection;
  *
  * @since v2.0
  */
-public class AsynchronousProjectRolesRestClient extends AbstractAsynchronousRestClient implements ProjectRolesRestClient {
+public class AsynchronousProjectRolesRestClient extends AbstractAsynchronousRestClient
+        implements ProjectRolesRestClient {
 
     private final ProjectRoleJsonParser projectRoleJsonParser;
     private final BasicProjectRoleJsonParser basicRoleJsonParser;
@@ -69,11 +70,12 @@ public class AsynchronousProjectRolesRestClient extends AbstractAsynchronousRest
                 .build();
         final Promise<Collection<BasicProjectRole>> basicProjectRoles = getAndParse(rolesUris, basicRoleJsonParser);
 
-        return Promises.promise(Iterables.transform(basicProjectRoles.claim(), new Function<BasicProjectRole, ProjectRole>() {
-            @Override
-            public ProjectRole apply(final BasicProjectRole basicProjectRole) {
-                return getRole(basicProjectRole.getSelf()).claim();
-            }
-        }));
+        return Promises
+                .promise(Iterables.transform(basicProjectRoles.claim(), new Function<BasicProjectRole, ProjectRole>() {
+                    @Override
+                    public ProjectRole apply(final BasicProjectRole basicProjectRole) {
+                        return getRole(basicProjectRole.getSelf()).claim();
+                    }
+                }));
     }
 }

@@ -22,7 +22,7 @@ import com.atlassian.jira.rest.client.internal.json.GroupsJsonParser;
 import io.atlassian.util.concurrent.Promise;
 
 import javax.annotation.Nullable;
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriBuilder;
 import java.net.URI;
 
 /**
@@ -55,8 +55,9 @@ public class AsynchronousGroupRestClient extends AbstractAsynchronousRestClient 
     }
 
     @Override
-    public Promise<Iterable<Group>> findGroups(@Nullable String query, @Nullable String exclude, @Nullable Integer maxResults, @Nullable String userName) {
-         UriBuilder uriBuilder = UriBuilder.fromUri(baseUri).path(GROUPS_URI_PREFIX).path(PICKER_URI_PREFIX);
+    public Promise<Iterable<Group>> findGroups(@Nullable String query, @Nullable String exclude,
+            @Nullable Integer maxResults, @Nullable String userName) {
+        UriBuilder uriBuilder = UriBuilder.fromUri(baseUri).path(GROUPS_URI_PREFIX).path(PICKER_URI_PREFIX);
 
         addOptionalQueryParam(uriBuilder, QUERY_ATTRIBUTE, query);
         addOptionalQueryParam(uriBuilder, EXCLUDE_ATTRIBUTE, exclude);

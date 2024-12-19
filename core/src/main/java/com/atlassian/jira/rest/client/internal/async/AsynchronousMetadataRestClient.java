@@ -35,7 +35,7 @@ import com.atlassian.jira.rest.client.internal.json.ServerInfoJsonParser;
 import com.atlassian.jira.rest.client.internal.json.StatusJsonParser;
 import io.atlassian.util.concurrent.Promise;
 
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriBuilder;
 import java.net.URI;
 
 /**
@@ -48,13 +48,16 @@ public class AsynchronousMetadataRestClient extends AbstractAsynchronousRestClie
     private static final String SERVER_INFO_RESOURCE = "/serverInfo";
     private final ServerInfoJsonParser serverInfoJsonParser = new ServerInfoJsonParser();
     private final IssueTypeJsonParser issueTypeJsonParser = new IssueTypeJsonParser();
-    private final GenericJsonArrayParser<IssueType> issueTypesJsonParser = GenericJsonArrayParser.create(issueTypeJsonParser);
+    private final GenericJsonArrayParser<IssueType> issueTypesJsonParser = GenericJsonArrayParser
+            .create(issueTypeJsonParser);
     private final StatusJsonParser statusJsonParser = new StatusJsonParser();
     private final GenericJsonArrayParser<Status> statusesJsonParser = GenericJsonArrayParser.create(statusJsonParser);
     private final PriorityJsonParser priorityJsonParser = new PriorityJsonParser();
-    private final GenericJsonArrayParser<Priority> prioritiesJsonParser = GenericJsonArrayParser.create(priorityJsonParser);
+    private final GenericJsonArrayParser<Priority> prioritiesJsonParser = GenericJsonArrayParser
+            .create(priorityJsonParser);
     private final ResolutionJsonParser resolutionJsonParser = new ResolutionJsonParser();
-    private final GenericJsonArrayParser<Resolution> resolutionsJsonParser = GenericJsonArrayParser.create(resolutionJsonParser);
+    private final GenericJsonArrayParser<Resolution> resolutionsJsonParser = GenericJsonArrayParser
+            .create(resolutionJsonParser);
     private final IssueLinkTypesJsonParser issueLinkTypesJsonParser = new IssueLinkTypesJsonParser();
     private final JsonArrayParser<Iterable<Field>> fieldsJsonParser = FieldJsonParser.createFieldsArrayParser();
     private final URI baseUri;
