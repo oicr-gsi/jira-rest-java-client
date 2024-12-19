@@ -13,7 +13,7 @@
 
     <groupId>ca.on.oicr.gsi</groupId>
     <artifactId>jira-rest-java-client-parent</artifactId>
-    <version>6.0.2</version>
+    <version>6.0.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>JIRA REST Java Client</name>
